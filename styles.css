@@ -1,0 +1,375 @@
+/* Import Montserrat Font */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+/* Color Palette */
+:root {
+  --dark-teal: #4A5D5C;
+  --burgundy: #7D555F;
+  --light-tan: #F5F0E8;
+  --sage-green: #B7C1B4;
+  --muted-green: #6F7B70;
+  --cream-bg: #F5F0E8;
+  --white: #FFFFFF;
+  --text-dark: #2C2C2C;
+}
+
+/* Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--text-dark);
+  background-color: var(--cream-bg);
+}
+
+/* Header & Navigation */
+header {
+  background-color: var(--sage-green);
+  border-bottom: 2px solid var(--dark-teal);
+  padding: 1.5rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+  color: var(--dark-teal);
+}
+
+.logo img {
+  height: 50px;
+  width: auto;
+}
+
+.logo-text {
+  font-weight: 600;
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--text-dark);
+  font-weight: 500;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+nav a:hover {
+  color: var(--burgundy);
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--burgundy);
+  transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* Main Content */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 3rem 0;
+  border-bottom: 1px solid var(--sage-green);
+  margin-bottom: 3rem;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  color: var(--dark-teal);
+  margin-bottom: 0.5rem;
+  letter-spacing: -1px;
+}
+
+.hero .subtitle {
+  font-size: 1.3rem;
+  color: var(--burgundy);
+  font-weight: 500;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  color: var(--text-dark);
+  margin-top: 1rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.8;
+}
+
+/* Sections */
+section {
+  margin-bottom: 4rem;
+}
+
+section h2 {
+  font-size: 2rem;
+  color: var(--dark-teal);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid var(--burgundy);
+  display: inline-block;
+}
+
+section h3 {
+  font-size: 1.3rem;
+  color: var(--burgundy);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+section p {
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+  line-height: 1.8;
+}
+
+/* Cards */
+.card {
+  background-color: var(--white);
+  border-left: 4px solid var(--burgundy);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card h4 {
+  color: var(--dark-teal);
+  margin-bottom: 0.5rem;
+}
+
+.card-meta {
+  font-size: 0.9rem;
+  color: var(--muted-green);
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+/* Project Links */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.project-card {
+  background-color: var(--white);
+  border: 2px solid var(--sage-green);
+  padding: 2rem;
+  border-radius: 4px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.project-card:hover {
+  border-color: var(--burgundy);
+  box-shadow: 0 4px 16px rgba(125, 85, 95, 0.15);
+}
+
+.project-card h3 {
+  color: var(--dark-teal);
+  margin-bottom: 1rem;
+  border-bottom: none;
+}
+
+.project-card p {
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-dark);
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  background-color: var(--burgundy);
+  color: var(--white);
+  padding: 0.8rem 1.8rem;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn:hover {
+  background-color: var(--dark-teal);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: var(--dark-teal);
+}
+
+.btn-secondary:hover {
+  background-color: var(--muted-green);
+}
+
+/* Resume Section */
+.resume-section {
+  margin-bottom: 2.5rem;
+}
+
+.resume-item {
+  background-color: var(--white);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid var(--sage-green);
+  border-radius: 2px;
+}
+
+.resume-item h4 {
+  color: var(--dark-teal);
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.resume-meta {
+  color: var(--muted-green);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.resume-item p {
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+/* Footer */
+footer {
+  background-color: var(--dark-teal);
+  color: var(--white);
+  text-align: center;
+  padding: 2rem;
+  margin-top: 4rem;
+  border-top: 3px solid var(--burgundy);
+}
+
+footer a {
+  color: var(--sage-green);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: var(--light-tan);
+}
+
+/* Image Styling */
+img.header-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin: 1.5rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  nav ul {
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  nav a {
+    font-size: 0.9rem;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero .subtitle {
+    font-size: 1.1rem;
+  }
+
+  section h2 {
+    font-size: 1.5rem;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  main {
+    padding: 2rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  nav ul {
+    gap: 0.5rem;
+  }
+
+  nav a {
+    font-size: 0.8rem;
+  }
+
+  .hero h1 {
+    font-size: 1.5rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  section h2 {
+    font-size: 1.3rem;
+  }
+}

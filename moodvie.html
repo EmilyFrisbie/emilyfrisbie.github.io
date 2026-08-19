@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moodvie - Emily Frisbie</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="header-container">
+      <a href="index.html" class="logo">
+        <img src="logothumbnail.png" alt="Emily Frisbie Logo">
+        <div class="logo-text">EMILY FRISBIE</div>
+      </a>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="resume.html">Resume</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="moodvie.html">Moodvie</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>🎬 Moodvie</h1>
+      <p class="subtitle">Mood-Based Movie Recommendation System</p>
+      <p>
+        A machine learning application that recommends movies based on your current mood 
+        and preferred music genre. Built as my master's capstone project.
+      </p>
+    </section>
+
+    <!-- Project Overview -->
+    <section id="overview">
+      <h2>Project Overview</h2>
+      <p>
+        Moodvie is a supervised learning recommendation system that combines movie metadata, 
+        mood-based features, and music genre preferences to deliver personalized movie suggestions. 
+        The system was built from the ground up: data collection, feature engineering, model training, 
+        evaluation, and deployment on Streamlit Cloud.
+      </p>
+    </section>
+
+    <!-- Problem Statement -->
+    <section id="problem">
+      <h2>The Problem</h2>
+      <div class="card">
+        <h3>Why Movie Recommendations Matter</h3>
+        <p>
+          Netflix, Hulu, and other streaming platforms use recommendation algorithms to keep users engaged. 
+          However, these systems often fall short in one key way: <strong>they don't account for the user's current mood</strong>.
+        </p>
+        <p>
+          Sometimes you want an uplifting comedy. Other times, you need a gripping drama or a mind-bending thriller. 
+          Traditional recommendations are based on viewing history alone—not on how you're feeling right now.
+        </p>
+        <p>
+          <strong>Moodvie's Challenge:</strong> Can we build a system that predicts which movies will resonate 
+          with a user's mood and musical taste preferences?
+        </p>
+      </div>
+    </section>
+
+    <!-- Approach Section -->
+    <section id="approach">
+      <h2>The Approach</h2>
+
+      <h3>1. Data Collection & Preparation</h3>
+      <div class="card">
+        <p>
+          I merged two movie databases (Cinatomy and TMDB) to create a rich feature set of ~1,000 movies. 
+          Features included:
+        </p>
+        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+          <li><strong>Cinatomy ratings</strong>: 17 numeric features capturing emotional and structural aspects of films</li>
+          <li><strong>IMDb & Metacritic scores</strong>: Global audience sentiment metrics</li>
+          <li><strong>Box office gross</strong>: Commercial success indicator</li>
+          <li><strong>AI-generated mood labels & musical genres</strong>: Created using Claude API with few-shot prompting</li>
+        </ul>
+      </div>
+
+      <h3>2. Feature Engineering</h3>
+      <div class="card">
+        <p>
+          To frame the problem as a regression task, I generated <strong>movie pairs</strong> and calculated 
+          their similarity as regression targets. This "pairwise regression" approach allows the model to learn 
+          nuanced relationships between movies based on their mood and feature profiles.
+        </p>
+        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+          <li>Created ~498,500 movie pairs from the cleaned dataset</li>
+          <li>Computed cosine similarity between paired movies as the regression target</li>
+          <li>Used 17 Cinatomy features × 2 (for pairs) + metadata = 34 input features</li>
+        </ul>
+      </div>
+
+      <h3>3. Model Selection & Training</h3>
+      <div class="card">
+        <p>
+          I compared two tree-based models known for their robustness:
+        </p>
+        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+          <li><strong>XGBoost</strong>: Gradient boosting with regularization</li>
+          <li><strong>Random Forest</strong>: Ensemble of decision trees</li>
+        </ul>
+        <p style="margin-top: 1rem;">
+          The final model uses <strong>XGBoost with tuned hyperparameters</strong>, evaluated on test metrics 
+          (MAE, RMSE, Accuracy, F1 Score). Model and preprocessing pipeline saved as pickled artifacts 
+          for deployment.
+        </p>
+      </div>
+
+      <h3>4. Deployment</h3>
+      <div class="card">
+        <p>
+          The trained model is deployed as an interactive web application built with <strong>Streamlit</strong>. 
+          Users select a reference movie and musical genre, and the system recommends the most similar movie 
+          based on the trained model's predictions.
+        </p>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="results">
+      <h2>Results & Impact</h2>
+
+      <h3>Model Performance</h3>
+      <div class="card">
+        <p>
+          The XGBoost model achieved strong performance on held-out test data:
+        </p>
+        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+          <li><strong>Mean Absolute Error (MAE):</strong> ~0.033 (on 0-1 similarity scale)</li>
+          <li><strong>Root Mean Squared Error (RMSE):</strong> ~0.037</li>
+          <li><strong>Accuracy & F1 Score:</strong> Calculated on similarity-based classification thresholds</li>
+        </ul>
+        <p style="margin-top: 1rem; font-style: italic; color: #6F7B70;">
+          Note: The model was trained on derived labels (cosine similarity) from the same feature set used as input. 
+          This architectural decision is documented in the methodology and represents an intentional design constraint 
+          given the absence of user behavior data.
+        </p>
+      </div>
+
+      <h3>Key Insights</h3>
+      <div class="card">
+        <ul style="margin-left: 1.5rem;">
+          <li>Cinatomy emotional and structural ratings are strong predictors of movie similarity</li>
+          <li>Combining multiple feature sources (IMDb, Metacritic, box office) improves generalization</li>
+          <li>AI-generated mood labels and musical genres enhance personalization capabilities</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Live Demo Section -->
+    <section id="demo">
+      <h2>Try Moodvie</h2>
+      <div style="background-color: #FFFFFF; padding: 2rem; border-radius: 4px; border: 2px solid #B7C1B4; text-align: center;">
+        <h3 style="color: #4A5D5C; border-bottom: none; margin-bottom: 1rem;">
+          Ready to get a recommendation?
+        </h3>
+        <p style="margin-bottom: 1.5rem;">
+          Click below to launch the live Moodvie app and try it yourself. 
+          Pick a movie you love and a music genre that matches your mood—let the model recommend what to watch next.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="https://moodvie-bn9vh3nf2dbhftqfhhmqim.streamlit.app" target="_blank" class="btn">🎬 Moodvie</a>
+          <a href="https://github.com/emilyfrisbie/moodvie" target="_blank" class="btn btn-secondary">View on GitHub</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technical Stack -->
+    <section id="tech-stack">
+      <h2>Technical Stack</h2>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem;">
+        <div>
+          <h3>Programming</h3>
+          <ul style="list-style: none; padding-left: 0;">
+            <li>✓ Python 3.x</li>
+            <li>✓ Jupyter Notebooks (development)</li>
+            <li>✓ Streamlit (web deployment)</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Data Science</h3>
+          <ul style="list-style: none; padding-left: 0;">
+            <li>✓ XGBoost & Random Forest</li>
+            <li>✓ Scikit-learn (Pipeline, ColumnTransformer)</li>
+            <li>✓ Pandas, NumPy, SciPy</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Data Sources</h3>
+          <ul style="list-style: none; padding-left: 0;">
+            <li>✓ Cinatomy (movie features)</li>
+            <li>✓ TMDB (metadata)</li>
+            <li>✓ Claude API (genre/mood labels)</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Deployment</h3>
+          <ul style="list-style: none; padding-left: 0;">
+            <li>✓ Streamlit Cloud</li>
+            <li>✓ GitHub (source control)</li>
+            <li>✓ Custom domain (moodvie.io)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Limitations & Future Work -->
+    <section id="limitations">
+      <h2>Limitations & Future Work</h2>
+
+      <h3>Current Limitations</h3>
+      <div class="card">
+        <ul style="margin-left: 1.5rem;">
+          <li>
+            <strong>No user behavior data:</strong> The model is trained on movie-to-movie similarity, 
+            not user interaction history. Real-world systems would benefit from user ratings or watch history.
+          </li>
+          <li>
+            <strong>Derived labels:</strong> Regression targets (cosine similarity) are computed from 
+            the same features used as model input. This is an intentional architectural constraint, documented in the methodology.
+          </li>
+          <li>
+            <strong>Genre scope:</strong> Currently limited to AI-generated musical genres. Future versions 
+            could expand to additional mood/genre combinations.
+          </li>
+        </ul>
+      </div>
+
+      <h3>Possible Improvements</h3>
+      <div class="card">
+        <ul style="margin-left: 1.5rem;">
+          <li>Integrate user ratings or watch history (if data becomes available)</li>
+          <li>Expand categorical features to include in pairwise training</li>
+          <li>Experiment with deep learning approaches (neural networks)</li>
+          <li>A/B test recommendation quality with real users</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Reflections -->
+    <section id="reflections">
+      <h2>Reflections & Learnings</h2>
+      <div class="card">
+        <h3>What I Learned</h3>
+        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+          <li>
+            <strong>Perfect metrics are a red flag.</strong> Early models with suspiciously perfect test metrics 
+            revealed data leakage. The final model with realistic error metrics (MAE ~0.033) was the correct choice.
+          </li>
+          <li>
+            <strong>Feature engineering is 80% of the work.</strong> The time spent cleaning, merging, and 
+            engineering features far outweighed model tuning time.
+          </li>
+          <li>
+            <strong>Deployment complexity matters.</strong> Moving from Jupyter to production revealed issues 
+            in version management and artifact serialization that were invisible in notebooks.
+          </li>
+          <li>
+            <strong>Mentorship anchors architectural decisions.</strong> Regular feedback from my mentor 
+            ensured the pairwise regression approach was sound and the trade-offs were intentional.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Back to Projects -->
+    <section style="text-align: center; margin-top: 3rem;">
+      <a href="projects.html" class="btn btn-secondary">← Back to All Projects</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Emily Frisbie. All rights reserved.</p>
+    <p>
+      <a href="https://github.com/emilyfrisbie" target="_blank">GitHub</a> | 
+      <a href="https://linkedin.com/in/emilyfrisbie" target="_blank">LinkedIn</a>
+    </p>
+  </footer>
+
+</body>
+</html>
